@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
 @Entity
 public class User {
 
@@ -15,6 +18,12 @@ public class User {
     private String username;
     private String password;
     private String email;
+
+    @OneToOne
+    private Employee employee;
+
+    @ManyToOne
+    private Role role;
 
     public User() {
     }
@@ -49,5 +58,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public Employee getEmployee() {
+        return employee;
+    }
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

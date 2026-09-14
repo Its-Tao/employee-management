@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Employee {
@@ -23,6 +24,11 @@ public class Employee {
 
     private String position;
     private double salary;
+
+    @OneToOne(mappedBy = "employee")
+    private User user;
+
+    // getter and setter methods
 
     public Long getId() {
     return id;
@@ -87,6 +93,12 @@ public double getSalary() {
 public void setSalary(double salary) {
     this.salary = salary;
 }
+public User getUser() {
+    return user;
 
+}
+public void setUser(User user) {
+    this.user = user;
+}
 }
 

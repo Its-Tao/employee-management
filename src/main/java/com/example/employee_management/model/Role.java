@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+
 @Entity
 public class Role {
 
@@ -15,6 +16,8 @@ public class Role {
     private String name;
 
     private String description;
+
+    
 
     // Getters and Setters
 
