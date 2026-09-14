@@ -24,8 +24,6 @@ public class Employee {
     private String position;
     private double salary;
 
-    // Getters and Setters
-
     public Long getId() {
     return id;
 }
