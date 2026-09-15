@@ -1,8 +1,11 @@
 package com.example.employee_management.service;
 
 import com.example.employee_management.dto.UserResponseDTO;
+import com.example.employee_management.model.Role;
 import com.example.employee_management.model.User;
+import com.example.employee_management.repository.RoleRepository;
 import com.example.employee_management.repository.UserRepository;
+
 
 import org.springframework.stereotype.Service;
 
@@ -11,13 +14,17 @@ import java.util.List;
 import java.util.Optional;
 import com.example.employee_management.dto.UserRequestDTO;
 
+
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final  RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) {
@@ -25,6 +32,9 @@ public class UserService {
         user.setUsername(userRequestDTO.getUsername());
         user.setPassword(userRequestDTO.getPassword());
         user.setEmail(userRequestDTO.getEmail());
+        Role role =roleRepository.findById(userRequestDTO.getRoleId())
+                .orElseThrow(() -> new RuntimeException("Role not found with ID: " + userRequestDTO.getRoleId()));
+        user.setRole(role);
 
         User savedUser = userRepository.save(user);
         return new UserResponseDTO(savedUser);
@@ -55,6 +65,9 @@ public class UserService {
             user.setUsername(userRequestDTO.getUsername());
             user.setPassword(userRequestDTO.getPassword());
             user.setEmail(userRequestDTO.getEmail());
+            Role role = roleRepository.findById(userRequestDTO.getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found with ID: " + userRequestDTO.getRoleId()));
+            user.setRole(role);
 
             User savedUser = userRepository.save(user);
             return new UserResponseDTO(savedUser);
