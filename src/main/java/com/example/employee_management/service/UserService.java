@@ -45,7 +45,7 @@ public class UserService {
         return new UserResponseDTO(user);
     }
 
-    public UserResponseDTO updateUser(Long id, UserRequestDTO userRequetDTO) {
+    public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
 
         Optional<User> optionalUser = userRepository.findById(id);
 

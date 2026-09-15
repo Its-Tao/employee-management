@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class User {
@@ -20,9 +21,11 @@ public class User {
     private String email;
 
     @OneToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public User() {
