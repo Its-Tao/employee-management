@@ -1,9 +1,13 @@
 package com.example.employee_management.service;
 
 import com.example.employee_management.dto.UserResponseDTO;
+
 import com.example.employee_management.model.Role;
+import com.example.employee_management.model.Employee;
 import com.example.employee_management.model.User;
+
 import com.example.employee_management.repository.RoleRepository;
+import com.example.employee_management.repository.EmployeeRepository;
 import com.example.employee_management.repository.UserRepository;
 
 
@@ -21,10 +25,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final  RoleRepository roleRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, EmployeeRepository employeeRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) {
@@ -35,6 +41,9 @@ public class UserService {
         Role role =roleRepository.findById(userRequestDTO.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Role not found with ID: " + userRequestDTO.getRoleId()));
         user.setRole(role);
+        Employee employee = employeeRepository.findById(userRequestDTO.getEmployeeId())
+                .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + userRequestDTO.getEmployeeId()));
+        user.setEmployee(employee);
 
         User savedUser = userRepository.save(user);
         return new UserResponseDTO(savedUser);
@@ -65,9 +74,14 @@ public class UserService {
             user.setUsername(userRequestDTO.getUsername());
             user.setPassword(userRequestDTO.getPassword());
             user.setEmail(userRequestDTO.getEmail());
+
             Role role = roleRepository.findById(userRequestDTO.getRoleId())
                     .orElseThrow(() -> new RuntimeException("Role not found with ID: " + userRequestDTO.getRoleId()));
             user.setRole(role);
+            
+            Employee employee = employeeRepository.findById(userRequestDTO.getEmployeeId())
+                    .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + userRequestDTO.getEmployeeId()));
+            user.setEmployee(employee);
 
             User savedUser = userRepository.save(user);
             return new UserResponseDTO(savedUser);
