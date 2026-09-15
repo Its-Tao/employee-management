@@ -1,5 +1,7 @@
 package com.example.employee_management.dto;
 
+import com.example.employee_management.model.User;
+
 public class UserResponseDTO {
 
     private Long id;
@@ -13,6 +15,12 @@ public class UserResponseDTO {
         this.id = id;
         this.username = username;
         this.email = email;
+    }
+
+    public UserResponseDTO(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
     }
 
     public Long getId() {

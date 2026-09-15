@@ -1,5 +1,6 @@
 package com.example.employee_management.service;
 
+import com.example.employee_management.dto.UserResponseDTO;
 import com.example.employee_management.model.User;
 import com.example.employee_management.repository.UserRepository;
 
@@ -17,38 +18,42 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserResponseDTO addUser(User user) {
+        User savedUser = userRepository.save(user);
+        return new UserResponseDTO(savedUser);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserResponseDTO::new)
+                .toList();
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
+    public UserResponseDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("User not found with ID: " + id));
+
+        return new UserResponseDTO(user);
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    public UserResponseDTO updateUser(Long id, User updatedUser) {
 
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
-
             User user = optionalUser.get();
 
             user.setUsername(updatedUser.getUsername());
             user.setPassword(updatedUser.getPassword());
             user.setEmail(updatedUser.getEmail());
 
-            return userRepository.save(user);
+            User savedUser = userRepository.save(user);
+            return new UserResponseDTO(savedUser);
         }
 
-        throw new RuntimeException(
-                "User not found with ID: " + id
-        );
+        throw new RuntimeException("User not found with ID: " + id);
     }
 
     public void deleteUser(Long id) {
