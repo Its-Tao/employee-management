@@ -6,8 +6,10 @@ import com.example.employee_management.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.Optional;
+import com.example.employee_management.dto.UserRequestDTO;
 
 @Service
 public class UserService {
@@ -18,7 +20,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserResponseDTO addUser(User user) {
+    public UserResponseDTO addUser(UserRequestDTO userRequestDTO) {
+        User user = new User();
+        user.setUsername(userRequestDTO.getUsername());
+        user.setPassword(userRequestDTO.getPassword());
+        user.setEmail(userRequestDTO.getEmail());
+
         User savedUser = userRepository.save(user);
         return new UserResponseDTO(savedUser);
     }

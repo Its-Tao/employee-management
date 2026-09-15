@@ -7,6 +7,7 @@ import com.example.employee_management.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import com.example.employee_management.dto.UserRequestDTO;
 
 @RestController
 @RequestMapping("/users")
@@ -20,8 +21,8 @@ public class UserController {
 
     // Add a new user
     @PostMapping
-    public UserResponseDTO addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public UserResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
+        return userService.addUser(userRequestDTO);
     }
 
     // Get all users
