@@ -5,6 +5,8 @@ public class UserRequestDTO {
     private String username;
     private String password;
     private String email;
+    private Long employeeId;
+    private Long roleId;
 
     public UserRequestDTO() {
     }
@@ -31,5 +33,21 @@ public String getEmail() {
 
 public void setEmail(String email) {
     this.email = email;
+}
+
+public Long getEmployeeId() {
+    return employeeId;
+}
+
+public void setEmployeeId(Long employeeId) {
+    this.employeeId = employeeId;
+}
+
+public Long getRoleId() {
+    return roleId;
+}
+
+public void setRoleId(Long roleId) {
+    this.roleId = roleId;
 }
 }

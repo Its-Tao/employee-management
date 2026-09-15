@@ -7,6 +7,8 @@ public class UserResponseDTO {
     private Long id;
     private String username;
     private String email;
+    private Long employeeId;
+    private Long roleId;
 
     public UserResponseDTO() {
     }
@@ -21,6 +23,13 @@ public class UserResponseDTO {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
+
+        if(user.getEmployee() != null) {
+            this.employeeId = user.getEmployee().getId();
+        }
+        if(user.getRole() != null) {
+            this.roleId = user.getRole().getId();
+        }
     }
 
     public Long getId() {
