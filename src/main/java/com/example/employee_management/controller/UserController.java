@@ -41,9 +41,9 @@ public class UserController {
     @PutMapping("/{id}")
     public UserResponseDTO updateUser(
             @PathVariable Long id,
-            @RequestBody User user) {
+            @RequestBody UserRequestDTO userRequestDTO) {
 
-        return userService.updateUser(id, user);
+        return userService.updateUser(id, userRequestDTO);
     }
 
     // Delete a user

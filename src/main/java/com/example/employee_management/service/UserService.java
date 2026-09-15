@@ -45,16 +45,16 @@ public class UserService {
         return new UserResponseDTO(user);
     }
 
-    public UserResponseDTO updateUser(Long id, User updatedUser) {
+    public UserResponseDTO updateUser(Long id, UserRequestDTO userRequetDTO) {
 
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
-            user.setUsername(updatedUser.getUsername());
-            user.setPassword(updatedUser.getPassword());
-            user.setEmail(updatedUser.getEmail());
+            user.setUsername(userRequestDTO.getUsername());
+            user.setPassword(userRequestDTO.getPassword());
+            user.setEmail(userRequestDTO.getEmail());
 
             User savedUser = userRepository.save(user);
             return new UserResponseDTO(savedUser);
