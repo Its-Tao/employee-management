@@ -27,6 +27,7 @@ public class AuthController {
                         )
                 );
 
-        return "Login successful";
+        
+        return jwtService.generateToken(request.getUsername());
     }
-}
+    }
