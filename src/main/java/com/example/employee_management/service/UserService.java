@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import com.example.employee_management.dto.UserRequestDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 
@@ -26,21 +27,27 @@ public class UserService {
     private final UserRepository userRepository;
     private final  RoleRepository roleRepository;
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, EmployeeRepository employeeRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, EmployeeRepository employeeRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) {
         User user = new User();
+
         user.setUsername(userRequestDTO.getUsername());
-        user.setPassword(userRequestDTO.getPassword());
+
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword())); 
+
         user.setEmail(userRequestDTO.getEmail());
         Role role =roleRepository.findById(userRequestDTO.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Role not found with ID: " + userRequestDTO.getRoleId()));
         user.setRole(role);
+
         Employee employee = employeeRepository.findById(userRequestDTO.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + userRequestDTO.getEmployeeId()));
         user.setEmployee(employee);
@@ -72,7 +79,9 @@ public class UserService {
             User user = optionalUser.get();
 
             user.setUsername(userRequestDTO.getUsername());
-            user.setPassword(userRequestDTO.getPassword());
+
+            user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
+
             user.setEmail(userRequestDTO.getEmail());
 
             Role role = roleRepository.findById(userRequestDTO.getRoleId())
