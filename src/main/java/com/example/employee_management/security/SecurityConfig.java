@@ -28,10 +28,12 @@ public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**", "/error").permitAll()
 .anyRequest().authenticated()
+            )
                .addFilterBefore(
     jwtAuthenticationFilter,
     UsernamePasswordAuthenticationFilter.class
 ); 
+            
             
 
         return http.build();
