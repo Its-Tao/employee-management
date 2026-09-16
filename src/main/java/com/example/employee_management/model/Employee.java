@@ -26,6 +26,7 @@ public class Employee {
     private double salary;
 
     @OneToOne(mappedBy = "employee")
+    
     private User user;
 
     // getter and setter methods
