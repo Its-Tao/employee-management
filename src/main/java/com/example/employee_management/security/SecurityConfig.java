@@ -9,9 +9,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
+
+private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -21,8 +28,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**", "/error").permitAll()
 .anyRequest().authenticated()
-                
-            );
+               .addFilterBefore(
+    jwtAuthenticationFilter,
+    UsernamePasswordAuthenticationFilter.class
+); 
+            
 
         return http.build();
     }
